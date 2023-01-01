@@ -1,1 +1,76 @@
 
+Cervical Spine Fracture Detection Using Deep neural networks
+Abstract
+ 	Numerous research has been done to determine how well artificial intelligence (AI) performs in identifying fractures. On radiographs, AI has been used to identify hip, humeral, distal radius, wrist, hand, ankle, and thoracic fractures, and fractures of the lumbar spine on dual x-ray absorptiometry. AI has also been utilized to identify calcaneal10 and thoracic and fractures of the lumbar vertebral bodies 11–13 on CT. To the best of my knowledge, automatic detection of cervical spine fractures still needs enhancement. Research is still working on this because it will save effort and time and help in detection faster than humans. This research depends on the Kaggle competition, the RSNA has teamed with the American Society of Neuroradiology (ASNR) and the American Society of Spine Radiology (ASSR) to conduct an AI challenge competition exploring whether artificial intelligence can be used to aid in the detection and localization of cervical spine fractures. The most common fracture in the 2nd and the 7th fracture between all patients 
+	Introduction
+More than three million patients a year are evaluated for a cervical spine injury, which is a frequent condition. According to the National Cancer Institute about the anatomy of the Spinal Cord “The spine is made up of bones, muscles, tendons, nerves, and other tissues that reach from the base of the skull near the spinal cord (clivus) to the coccyx (tailbone). The vertebrae (back bones) of the spine include the cervical spine (C1-C7) thoracic spine (T1-T12), lumbar spine (L1-L5), sacral spine (S1-S5), and tailbone. Each vertebra is separated by a disc. sc. The vertebrae surround and protect the spinal cord.”. Nowadays much research is done to use AI in detecting fractures in the spinal cord, however much work is needed to enhance detection accuracy. The aim of this research is to apply the methods of AI on a 3d convolutional neural network with n layers to detect which vertebrae have fractures to avoid neurologic deterioration and paralysis after recovery.
+
+
+
+
+	Methodology
+By applying the 3d convolutional neural network with n layers, we found that there are some libraries like k-segmentation, tqdm.auto, glob,scipy.ndimage, and tensorflow that help in cleaning the data and helps in detecting if there is a fracture in the vertebra or not and in which one.
+	Dataset
+Our data contains Dicom files of CT scans of the cervical spine (neck). According to “The American society of spine radiology” the dataset contains 3 files segmentation, test images, and train images. Segmentation and test image files contain scans for every patient with his unique ID. Every human has 7 vertebrae c1, c2, c3, c4, c5, c6, and c7. From the segmentation file, we found in file train.csv that the common fracture in 1st and 2nd vertebrae and to know if any fracture is there or not by finding in “patient overview” 0&1, 0 means no fracture, and 1 means there is a fracture. From the segmentation, we can detect in each patient which vertebra has a fracture. 
+	Segmentation	 
+First, we are trying to visualize the whole file and clean the data. To make visualization of the data we use get fracture prediction to train and find how many vertebrae have been fractured, then if we found two vertebrae have been fractured.
+Figure 1 shows the workflow of AI in radiology applications. 
+ 
+Figure 1:workflow of AI in radiology applications (Perkuhn, 2018)
+In segmentation, we print the data for each patient. “Patient_overall” contains all the cervical vertebrae and shows if there is a fracture in the vertebra or not and which one has the fracture. 
+In figure 2, according to Sabaghian et. al.[71] fully automatic 3D segmentation of the thoracolumbar spinal cord and the vertebral canal from T2-weighted MRI using the K-means clustering algorithm. Spinal Cord 58, 811–820 (2020). “The framework includes:
+	recognition of region of interest (ROI) based on mutual information as a similarity measure; 
+	applying a canny filter to extract edges and Hough line transform in order to remove the extra parts from ROI in the anterior-posterior direction; 
+	computing the centerline of the spinal cord by using Hough circular transform; (4) resorting to the circles by selecting a candidate circle close to the AP line with radius [7,8,9] to find the spinal cord curvature and (5) applying an anisotropic diffusion filter to remove noises and segmentation of spinal cord and canal by a k-means clustering algorithm to classify intensities.”
+ 
+Figure 2: The framework of the K-Seg method (Sahar Sabaghian, 2020)
+
+	Cervical fracture detection
+According to Salehinejad et.al. [1] in deep sequential learning for cervical spine fracture detection on computed tomography imaging “A cervical spine CT has N number of axial image slices along the craniocaudal axis where we represent each image with a vector x_n. Therefore, we can model the cervical spine as the set of input images X = (x1, x2, ..., xN ) with the corresponding image level labels y = (y1, y2, ..., yN ), where yn = 1 means the image contains at least one fracture and yn = 0 is the opposite. We can also define a case level label y ∈ {0, 1}, where if y = 1 at least one image contains a fracture and if y = 0 none of the images contain a fracture. Figure 1 shows the different steps of the proposed model. It has two major steps, which are prepossessing of the input images X and learning a mapping function from the preprocessed images to the target y. Different steps are discussed as follows” 5 feb 2021 so we know from 1 or 0 is there a fracture or not.
+2.4. Preprocessing:
+Fractures of the cervical spine are heterogeneous in their location, type, and composition. Malalignment of the cervical spine can be caused by a fracture and/or a strained ligament. Localized bleeding and soft tissue inflammation can be linked to fractures and ligament damage. 
+By this process will flatten the output and transfer the image from pixel to hu (Hounsfield Unit) to rescale the image and appear it as a real photo instead of dark or black photo.
+	Results:
+	First, to visualize our data we make a list to print our files we found that we have 7 files in the data:
+ ['sample_submission.csv', 'train_images', 'train_bounding_boxes.csv', 'segmentations', 'train.csv', 'test.csv', 'test_images']. Then, in figure 1 we print all the vertebrae in the human body with which human has a trauma and in which vertebra. We found that the common between most of the patients is second vertebra and in the column patient_overall contain if the patient have a trauma or not 0 means “No” and 1 means “yes”
+ 
+Figure 3
+
+								
+In figure 4, we make a segmentation to know which vertebrae has trauma and it shows that c7&c2 is the most common two vertebrae that patients suffer from. About 125 patients suffer from trauma in 1st vertebra, 300 patients suffer from trauma in 2nd vertebra, few patients suffer from trauma in 3rd vertebra and this one is the least vertebra that patients suffer from. The second least vertebra is the 4th one which less than 125 patients suffer from trauma in it. 200 patients suffer from trauma in the 5th vertebra. In the 6th vertebra more than 250 patients suffer from trauma and the 7th one is the common vertebra in trauma between patients.
+Figure 4
+ 
+
+
+
+
+
+
+
+
+
+
+In figure 5, we make resize for the photo and preprocessing by flatten the photo and transfer it into Hounsfield unit (hu) to remove all the black in it after finding the result of the intensity 0 while the count is between 2000 and 3000
+						 
+Figure 5
+
+In figure 6, there are some slices for one patient from the data.
+ 
+Figure 6
+										
+	
+
+	Conclusion
+	The task of fracture detection in cervical spine CT images is extremely difficult. We presented a machine learning model based on our data, and after getting the result for all patients, we found that the common fracture in the 2nd and 7th vertebra between all patients. We encourage the research community to work actively on finding a real study to use AI in detecting the fracture.
+        5.  References:
+[1] Hojjat Salehinejad, Edward Ho, Hui-Ming, Priscila Crivellaro, “DEEP SEQUENTIAL LEARNING FOR CERVICAL SPINE FRACTURE DETECTION ON COMPUTED TOMOGRAPHY IMAGING” 2021
+[2] John H Bland and Dallas R Boushey, “Anatomy and physiology of the cervical spine,” in Seminars in arthritis and rheumatism. Elsevier, 1990, vol. 20, pp. 1–20
+[3] Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun, “Deep residual learning for image recognition,” in Proceedings of the IEEE conference on computer vision and pattern recognition, 2016, pp. 770–778.
+[4] Hojjat Salehinejad, Shahrokh Valaee, Tim Dowdell, and Joseph Barfett, “Image augmentation using radial transform for training deep neural networks,” in 2018 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP). IEEE, 2018, pp. 3016–3020. 
+[5] Hojjat Salehinejad, Sumeya Naqvi, Errol Colak, Joseph Barfett, and Shahrokh Valaee, “Cylindrical transform: 3d semantic segmentation of kidneys with limited annotated images,” in 2018 IEEE Global Conference on Signal and Information Processing (GlobalSIP). IEEE, 2018, pp. 539–543. 
+[6] Hojjat Salehinejad, Errol Colak, Tim Dowdell, Joseph Barfett, and Shahrokh Valaee, “Synthesizing chest xray pathology for training deep convolutional neural networks,” IEEE transactions on medical imaging, vol. 38, no. 5, pp. 1197–1206, 2018. 
+[7] Anil Kalra, “Developing fe human models from medical images,” in Basic Finite Element Method as Applied to Injury Biomechanics, pp. 389–415. Elsevier, 2018. 
+[8] Sunil L Bangare, Amruta Dubal, Pallavi S Bangare, and ST Patil, “Reviewing otsu’s method for image thresholding,” International Journal of Applied Engineering Research, vol. 10, no. 9, pp. 21777–21783, 2015. 
+[9] Christian Szegedy, Sergey Ioffe, Vincent Vanhoucke, and Alex Alemi, “Inception-v4, inception-resnet and the impact of residual connections on learning,” arXiv preprint arXiv:1602.07261, 2016. 
+[10] Ramprasaath R Selvaraju, Michael Cogswell, Abhishek Das, Ramakrishna Vedantam, Devi Parikh, and Dhruv Batra, “Grad-cam: Visual explanations from deep networks via gradient-based localization,” in Proceedings of the IEEE international conference on computer vision, 2017, pp. 618–626. 
+[11] Anna-Lena Robinson, Anders Moller, Yohan Robinson, ¨ and Claes Olerud, “C2 fracture subtypes, incidence, and treatment allocation changes with age: a retrospective cohort study of 233 consecutive cases,” BioMed research international, vol. 2017, 2017. 
